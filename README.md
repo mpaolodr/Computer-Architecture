@@ -2,13 +2,24 @@
 
 ## Project
 
-* [Implement the LS-8 Emulator](ls8/)
+- [Implement the LS-8 Emulator](ls8/)
 
 ## Task List: add this to the first comment of your Pull Request
 
 ### Day 1: Get `print8.ls8` running
 
-- [ ] Inventory what is here
+- [x] Inventory what is here
+
+      - Inventory:
+            - examples: shows examples if how instructions are stored in memory
+            - cpu.py: handles all operations we're going to implement
+            - ls8.py: call on cpu to execute commands
+
+      - cpu.py
+            - load has been implemented with hardcoded program
+            - alu has sample code for "ADD" and setup with error handling
+            - trace is already implemented but not yet sure how that works
+
 - [ ] Implement the `CPU` constructor
 - [ ] Add RAM functions `ram_read()` and `ram_write()`
 - [ ] Implement the core of `run()`
