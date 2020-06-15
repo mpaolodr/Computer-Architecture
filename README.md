@@ -20,8 +20,8 @@
             - alu has sample code for "ADD" and setup with error handling
             - trace is already implemented but not yet sure how that works
 
-- [ ] Implement the `CPU` constructor
-- [ ] Add RAM functions `ram_read()` and `ram_write()`
+- [x] Implement the `CPU` constructor
+- [x] Add RAM functions `ram_read()` and `ram_write()`
 - [ ] Implement the core of `run()`
 - [ ] Implement the `HLT` instruction handler
 - [ ] Add the `LDI` instruction
