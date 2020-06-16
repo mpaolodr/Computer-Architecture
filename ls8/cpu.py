@@ -75,39 +75,45 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        running = True
+        # running = True
 
-        while running:
-            # current instruction
-            ir = self.ram[self.pc]
+        # while running:
+        #     # current instruction
+        #     ir = self.ram[self.pc]
 
-            # LDI: has 2 operands base on opcode
-            if ir == 0b10000010:
-                # grab operands
-                operand_a = self.ram_read(self.pc + 1)
-                operand_b = self.ram_read(self.pc + 2)
+        #     # LDI: has 2 operands base on opcode
+        #     if ir == 0b10000010:
+        #         # grab operands
+        #         operand_a = self.ram_read(self.pc + 1)
+        #         operand_b = self.ram_read(self.pc + 2)
 
-                # operand_a is the register address to store operand b
-                self.reg[operand_a] = operand_b
+        #         # operand_a is the register address to store operand b
+        #         self.reg[operand_a] = operand_b
 
-                self.pc += 3
+        #         self.pc += 3
 
-            # PRN: has 1 operand which is the register address of value to be printed
-            elif ir == 0b01000111:
-                operand_a = self.ram_read(self.pc + 1)
-                data = self.reg[operand_a]
+        #     # PRN: has 1 operand which is the register address of value to be printed
+        #     elif ir == 0b01000111:
+        #         operand_a = self.ram_read(self.pc + 1)
+        #         data = self.reg[operand_a]
 
-                print(data)
+        #         print(data)
 
-                self.pc += 2
+        #         self.pc += 2
 
-            # HLT
-            elif ir == 0b00000001:
-                running = False
+        #     # HLT
+        #     elif ir == 0b00000001:
+        #         running = False
 
-            else:
-                print(f"Unknown instruction {ir} at address {self.pc}")
-                sys.exit(1)
+        #     else:
+        #         print(f"Unknown instruction {ir} at address {self.pc}")
+        #         sys.exit(1)
+
+        self.running = True
+
+        while self.running:
+            IR = self.ram[self.pc]
+            self.ir_table[IR]()
 
     def ram_read(self, MAR):
         # MAR - address being read

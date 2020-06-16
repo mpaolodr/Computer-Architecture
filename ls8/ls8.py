@@ -25,3 +25,5 @@ if len(sys.argv) > 1:
 else:
     # load print8 as default file
     cpu.load("print8.ls8")
+
+cpu.run()
