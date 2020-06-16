@@ -144,3 +144,19 @@ class CPU:
 
     def HLT(self):
         self.running = False
+
+    def ADD(self):
+        operand_a = self.ram_read(self.pc + 1)
+        operand_b = self.ram_read(self.pc + 2)
+
+        self.alu("ADD", operand_a, operand_b)
+
+        self.pc += 3
+
+    def MUL(self):
+        operand_a = self.ram_read(self.pc + 1)
+        operand_b = self.ram_read(self.pc + 2)
+
+        self.alu("MUL", operand_a, operand_b)
+
+        self.pc += 3
