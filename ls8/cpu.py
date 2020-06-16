@@ -17,6 +17,7 @@ class CPU:
         self.ram = [0] * 256  # 256 bytes of memory
         self.reg = [0] * 8  # r0 - r7 where r5,r6,r7 are reserved
         self.pc = 0  # program counter, start at 0
+        self.running = False  # will switch to True when run method is called
 
     def load(self):
         """Load a program into memory."""
@@ -121,4 +122,15 @@ class CPU:
 
         self.reg[operand_a] = operand_b
 
+        self.pc += 3
+
+    def PRN(self):
+        operand_a = self.ram_read(self.pc + 1)
+        value = self.reg[operand_a]
+
+        print(value)
+
         self.pc += 2
+
+    def HLT(self):
+        self.running = False
