@@ -2,6 +2,12 @@
 
 import sys
 
+LDI = 0b10000010
+HLT = 0b00000001
+PRN = 0b01000111
+ADD = 0b10100000
+MUL = 0b10100010
+
 
 class CPU:
     """Main CPU class."""
@@ -108,3 +114,11 @@ class CPU:
         # MAR - address being written to
         # MDR - data to be written
         self.ram[MAR] = MDR
+
+    def LDI(self):
+        operand_a = self.ram_read(self.pc + 1)
+        operand_b = self.ram_read(self.pc + 2)
+
+        self.reg[operand_a] = operand_b
+
+        self.pc += 2
