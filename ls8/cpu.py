@@ -21,7 +21,9 @@ class CPU:
         self.ir_table = {
             LDI: self.LDI,
             PRN: self.PRN,
-            HLT: self.HLT
+            HLT: self.HLT,
+            ADD: self.ADD,
+            MUL: self.MUL
         }
 
     def load(self, filename):
@@ -49,7 +51,10 @@ class CPU:
 
         if op == "ADD":
             self.reg[reg_a] += self.reg[reg_b]
-        # elif op == "SUB": etc
+
+        elif op == "MUL":
+            self.reg[reg_a] *= self.reg[reg_b]
+
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -75,39 +80,6 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        # running = True
-
-        # while running:
-        #     # current instruction
-        #     ir = self.ram[self.pc]
-
-        #     # LDI: has 2 operands base on opcode
-        #     if ir == 0b10000010:
-        #         # grab operands
-        #         operand_a = self.ram_read(self.pc + 1)
-        #         operand_b = self.ram_read(self.pc + 2)
-
-        #         # operand_a is the register address to store operand b
-        #         self.reg[operand_a] = operand_b
-
-        #         self.pc += 3
-
-        #     # PRN: has 1 operand which is the register address of value to be printed
-        #     elif ir == 0b01000111:
-        #         operand_a = self.ram_read(self.pc + 1)
-        #         data = self.reg[operand_a]
-
-        #         print(data)
-
-        #         self.pc += 2
-
-        #     # HLT
-        #     elif ir == 0b00000001:
-        #         running = False
-
-        #     else:
-        #         print(f"Unknown instruction {ir} at address {self.pc}")
-        #         sys.exit(1)
 
         self.running = True
 
