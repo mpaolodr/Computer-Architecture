@@ -7,6 +7,8 @@ HLT = 0b00000001
 PRN = 0b01000111
 ADD = 0b10100000
 MUL = 0b10100010
+PUSH = 0b01000101
+POP = 0b01000110
 
 
 class CPU:
@@ -18,12 +20,15 @@ class CPU:
         self.reg = [0] * 8  # r0 - r7 where r5,r6,r7 are reserved
         self.pc = 0  # program counter, start at 0
         self.running = False  # will switch to True when run method is called
+        self.sp = 7  # index in register which has the address in memory to store stack
         self.ir_table = {
             LDI: self.LDI,
             PRN: self.PRN,
             HLT: self.HLT,
             ADD: self.ADD,
-            MUL: self.MUL
+            MUL: self.MUL,
+            PUSH: self.PUSH,
+            POP = self.POP
         }
 
     def load(self, filename):
@@ -132,3 +137,9 @@ class CPU:
         self.alu("MUL", operand_a, operand_b)
 
         self.pc += 3
+
+    def PUSH(self):
+        pass
+
+    def POP(self):
+        pass
