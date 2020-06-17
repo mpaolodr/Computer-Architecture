@@ -28,7 +28,7 @@ class CPU:
             ADD: self.ADD,
             MUL: self.MUL,
             PUSH: self.PUSH,
-            POP = self.POP
+            POP: self.POP
         }
 
     def load(self, filename):
@@ -87,6 +87,10 @@ class CPU:
         """Run the CPU."""
 
         self.running = True
+        sp = self.sp
+        # initial value at r7
+        # address in memory if stack is empty
+        self.reg[sp] = 0xf4
 
         while self.running:
             IR = self.ram[self.pc]
@@ -139,7 +143,26 @@ class CPU:
         self.pc += 3
 
     def PUSH(self):
-        pass
+        # register index to grab the address in memory
+        sp = self.sp
+        self.reg[sp] -= 1
+
+        stack_addr = self.reg[sp]
+
+        reg_num = self.ram_read(self.pc + 1)
+        value = self.reg[reg_num]
+
+        self.ram_write(value, stack_addr)
+
+        self.pc += 2
 
     def POP(self):
-        pass
+        sp = self.sp
+        stack_addr = self.reg[sp]
+
+        reg_num = self.ram_read(self.pc + 1)
+        value = self.ram_read(stack_addr)
+
+        self.reg[reg_num] = value
+        self.reg[sp] += 1
+        self.pc += 2
