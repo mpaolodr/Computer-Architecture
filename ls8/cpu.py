@@ -172,7 +172,18 @@ class CPU:
         self.pc += 2
 
     def CALL(self):
-        pass
+        # grab return address - index in ram that has the next instruction after call
+        return_addr = self.pc + 2
+
+        # push to stack
+        self.reg[self.sp] -= 1
+        self.ram_write(return_addr, self.reg[sp])
+
+        # set pc
+        reg_num = self.ram_read(self.pc + 1)
+        sub_addr = self.reg[reg_num]
+
+        self.pc = sub_addr
 
     def RET(self):
         pass
