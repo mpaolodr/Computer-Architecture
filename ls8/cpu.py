@@ -177,7 +177,7 @@ class CPU:
 
         # push to stack
         self.reg[self.sp] -= 1
-        self.ram_write(return_addr, self.reg[sp])
+        self.ram_write(return_addr, self.reg[self.sp])
 
         # set pc
         reg_num = self.ram_read(self.pc + 1)
@@ -186,4 +186,5 @@ class CPU:
         self.pc = sub_addr
 
     def RET(self):
-        pass
+        self.pc = self.ram_read(self.reg[self.sp])
+        self.reg[self.sp] += 1
