@@ -9,6 +9,8 @@ ADD = 0b10100000
 MUL = 0b10100010
 PUSH = 0b01000101
 POP = 0b01000110
+CALL = 0b01010000
+RET = 0b00010001
 
 
 class CPU:
@@ -28,7 +30,9 @@ class CPU:
             ADD: self.ADD,
             MUL: self.MUL,
             PUSH: self.PUSH,
-            POP: self.POP
+            POP: self.POP,
+            CALL: self.CALL,
+            RET: self.RET
         }
 
     def load(self, filename):
@@ -166,3 +170,9 @@ class CPU:
         self.reg[reg_num] = value
         self.reg[sp] += 1
         self.pc += 2
+
+    def CALL(self):
+        pass
+
+    def RET(self):
+        pass
