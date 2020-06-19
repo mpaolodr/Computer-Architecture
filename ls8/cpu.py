@@ -14,6 +14,7 @@ RET = 0b00010001
 CMP = 0b10100111
 JMP = 0b01010100
 JEQ = 0b01010101
+JNE = 0b01010110
 
 
 class CPU:
@@ -39,7 +40,8 @@ class CPU:
             RET: self.RET,
             CMP: self.CMP,
             JMP: self.JMP,
-            JEQ: self.JEQ
+            JEQ: self.JEQ,
+            JNE: self.JNE
         }
 
     def load(self, filename):
@@ -237,4 +239,16 @@ class CPU:
         else:
             # is this needed? in case JEQ executes and values aren't equal?
             # or should I just have JNE execute here?
+            self.pc += 2
+
+    def JNE(self):
+        eq_flag = self.fl
+
+        if eq_flag != 1:
+            reg_num = self.ram_read(self.pc + 1)
+            jmp_addr = self.reg[reg_num]
+
+            self.pc = jmp_addr
+
+        else:
             self.pc += 2
