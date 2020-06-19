@@ -15,6 +15,7 @@ CMP = 0b10100111
 JMP = 0b01010100
 JEQ = 0b01010101
 JNE = 0b01010110
+AND = 0b10101000
 
 
 class CPU:
@@ -41,7 +42,8 @@ class CPU:
             CMP: self.CMP,
             JMP: self.JMP,
             JEQ: self.JEQ,
-            JNE: self.JNE
+            JNE: self.JNE,
+            AND: self.AND
         }
 
     def load(self, filename):
@@ -84,6 +86,9 @@ class CPU:
 
             elif self.reg[reg_a] < self.reg[reg_b]:
                 self.fl = 0b00000100
+
+        elif op == "AND":
+            self.reg[reg_a] &= self.reg[reg_b]
 
         else:
             raise Exception("Unsupported ALU operation")
@@ -252,3 +257,11 @@ class CPU:
 
         else:
             self.pc += 2
+
+    def AND(self):
+        operand_a = self.ram_read(self.pc + 1)
+        operand_b = self.ram_read(self.pc + 2)
+
+        self.alu("AND", operand_a, operand_b)
+
+        self.pc += 3
