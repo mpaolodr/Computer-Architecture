@@ -13,6 +13,7 @@ CALL = 0b01010000
 RET = 0b00010001
 CMP = 0b10100111
 JMP = 0b01010100
+JEQ = 0b01010101
 
 
 class CPU:
@@ -37,7 +38,8 @@ class CPU:
             CALL: self.CALL,
             RET: self.RET,
             CMP: self.CMP,
-            JMP: self.JMP
+            JMP: self.JMP,
+            JEQ: self.JEQ
         }
 
     def load(self, filename):
@@ -220,3 +222,19 @@ class CPU:
         reg_num = self.ram_read(self.pc + 1)
         # set value of register to pc
         self.pc = self.reg[reg_num]
+
+    def JEQ(self):
+        # just for readability
+        eq_flag = self.fl
+
+        if eq_flag == 1:  # 0b00000001 in decimal is 1
+            reg_num = self.ram_read(self.pc + 1)
+            jmp_addr = self.reg[reg_num]
+
+            # set pc because in machine code, value of "C" is 1
+            self.pc = jmp_addr
+
+        else:
+            # is this needed? in case JEQ executes and values aren't equal?
+            # or should I just have JNE execute here?
+            self.pc += 2
