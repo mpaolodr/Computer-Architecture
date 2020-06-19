@@ -18,6 +18,7 @@ JNE = 0b01010110
 AND = 0b10101000
 OR = 0b10101010
 XOR = 0b10101011
+NOT = 0b01101001
 
 
 class CPU:
@@ -47,7 +48,8 @@ class CPU:
             JNE: self.JNE,
             AND: self.AND,
             OR: self.OR,
-            XOR: self.XOR
+            XOR: self.XOR,
+            NOT: self.NOT
         }
 
     def load(self, filename):
@@ -70,7 +72,7 @@ class CPU:
 
                 address += 1
 
-    def alu(self, op, reg_a, reg_b):
+    def alu(self, op, reg_a=None, reg_b=None):
         """ALU operations."""
 
         if op == "ADD":
@@ -99,6 +101,9 @@ class CPU:
 
         elif op == "XOR":
             self.reg[reg_a] ^= self.reg[reg_b]
+
+        elif op == "NOT":
+            self.reg[reg_a] = ~(self.reg[reg_a])
 
         else:
             raise Exception("Unsupported ALU operation")
@@ -291,3 +296,10 @@ class CPU:
         self.alu("XOR", operand_a, operand_b)
 
         self.pc += 3
+
+    def NOT(self):
+        operand_a = self.ram_read(self.pc + 1)
+
+        self.alu("NOT", operand_a)
+
+        self.pc += 2
