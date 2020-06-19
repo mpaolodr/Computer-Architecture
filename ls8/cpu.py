@@ -12,6 +12,7 @@ POP = 0b01000110
 CALL = 0b01010000
 RET = 0b00010001
 CMP = 0b10100111
+JMP = 0b01010100
 
 
 class CPU:
@@ -35,7 +36,8 @@ class CPU:
             POP: self.POP,
             CALL: self.CALL,
             RET: self.RET,
-            CMP: self.CMP
+            CMP: self.CMP,
+            JMP: self.JMP
         }
 
     def load(self, filename):
@@ -212,3 +214,9 @@ class CPU:
         self.alu("CMP", operand_a, operand_b)
 
         self.pc += 3
+
+    def JMP(self):
+        # index in register containing the address to jump to
+        reg_num = self.ram_read(self.pc + 1)
+        # set value of register to pc
+        self.pc = self.reg[reg_num]
