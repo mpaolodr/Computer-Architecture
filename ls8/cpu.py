@@ -21,6 +21,7 @@ XOR = 0b10101011
 NOT = 0b01101001
 SHL = 0b10101100
 SHR = 0b10101101
+MOD = 0b10100100
 
 
 class CPU:
@@ -53,7 +54,8 @@ class CPU:
             XOR: self.XOR,
             NOT: self.NOT,
             SHL: self.SHL,
-            SHR: self.SHR
+            SHR: self.SHR,
+            MOD: self.MOD
         }
 
     def load(self, filename):
@@ -114,6 +116,15 @@ class CPU:
 
         elif op == "SHR":
             self.reg[reg_a] = (self.reg[reg_a] >> self.reg[reg_b])
+
+        elif op == "MOD":
+
+            if self.reg[reg_b] == 0:
+                print("Error")
+                sys.exit(1)
+
+            else:
+                self.reg[reg_a] %= self.reg[reg_b]
 
         else:
             raise Exception("Unsupported ALU operation")
@@ -327,5 +338,13 @@ class CPU:
         operand_b = self.ram_read(self.pc + 2)
 
         self.alu("SHR", operand_a, operand_b)
+
+        self.pc += 3
+
+    def MOD(self):
+        operand_a = self.ram_read(self.pc + 1)
+        operand_b = self.ram_read(self.pc + 2)
+
+        self.alu("MOD", operand_a, operand_b)
 
         self.pc += 3
