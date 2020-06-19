@@ -11,6 +11,7 @@ PUSH = 0b01000101
 POP = 0b01000110
 CALL = 0b01010000
 RET = 0b00010001
+CMP = 0b10100111
 
 
 class CPU:
@@ -23,6 +24,7 @@ class CPU:
         self.pc = 0  # program counter, start at 0
         self.running = False  # will switch to True when run method is called
         self.sp = 7  # index in register which has the address in memory to store stack
+        self.fl = 0b00000000
         self.ir_table = {
             LDI: self.LDI,
             PRN: self.PRN,
@@ -32,7 +34,8 @@ class CPU:
             PUSH: self.PUSH,
             POP: self.POP,
             CALL: self.CALL,
-            RET: self.RET
+            RET: self.RET,
+            CMP: self.CMP
         }
 
     def load(self, filename):
@@ -63,6 +66,18 @@ class CPU:
 
         elif op == "MUL":
             self.reg[reg_a] *= self.reg[reg_b]
+
+        elif op == "CMP":
+
+            if self.reg[reg_a] == self.reg[reg_b]:
+                # will self.fl | 0b00000001 work?
+                self.fl = 0b00000001
+
+            elif self.reg[reg_a] > self.reg[reg_b]:
+                self.fl = 0b00000010
+
+            elif self.reg[reg_a] < self.reg[reg_b]:
+                self.fl = 0b00000100
 
         else:
             raise Exception("Unsupported ALU operation")
@@ -188,3 +203,12 @@ class CPU:
     def RET(self):
         self.pc = self.ram_read(self.reg[self.sp])
         self.reg[self.sp] += 1
+
+    def CMP(self):
+        # grab operands - register index
+        operand_a = self.ram_read(self.pc + 1)
+        operand_b = self.ram_read(self.pc + 2)
+
+        self.alu("CMP", operand_a, operand_b)
+
+        self.pc += 3
