@@ -16,6 +16,8 @@ JMP = 0b01010100
 JEQ = 0b01010101
 JNE = 0b01010110
 AND = 0b10101000
+OR = 0b10101010
+XOR = 0b10101011
 
 
 class CPU:
@@ -43,7 +45,9 @@ class CPU:
             JMP: self.JMP,
             JEQ: self.JEQ,
             JNE: self.JNE,
-            AND: self.AND
+            AND: self.AND,
+            OR: self.OR,
+            XOR: self.XOR
         }
 
     def load(self, filename):
@@ -89,6 +93,12 @@ class CPU:
 
         elif op == "AND":
             self.reg[reg_a] &= self.reg[reg_b]
+
+        elif op == "OR":
+            self.reg[reg_a] |= self.reg[reg_b]
+
+        elif op == "XOR":
+            self.reg[reg_a] ^= self.reg[reg_b]
 
         else:
             raise Exception("Unsupported ALU operation")
@@ -263,5 +273,21 @@ class CPU:
         operand_b = self.ram_read(self.pc + 2)
 
         self.alu("AND", operand_a, operand_b)
+
+        self.pc += 3
+
+    def OR(self):
+        operand_a = self.ram_read(self.pc + 1)
+        operand_b = self.ram_read(self.pc + 2)
+
+        self.alu("OR", operand_a, operand_b)
+
+        self.pc += 3
+
+    def XOR(self):
+        operand_a = self.ram_read(self.pc + 1)
+        operand_b = self.ram_read(self.pc + 2)
+
+        self.alu("XOR", operand_a, operand_b)
 
         self.pc += 3
